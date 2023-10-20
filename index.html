@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>form</title>
+  </head>
+  <body>
+    <form>
+      <ol>
+        <li>
+          <text>If you click 'yes' to this, you can answer q3</text> <br />
+          <input type="radio" id="q1Yes" name="string" value="Yes" />
+          <label for="Yes">Yes</label><br />
+          <input type="radio" id="q1No" name="string" value="No" />
+          <label for="No">No</label><br />
+        </li>
+        <li>
+          <text>Type something in here.</text> <br />
+          <input type="text" id="q2" name="born" value="" />
+        </li>
+        <li>
+          <text>You can answer this question if you have answered 'yes' to question 1:</text>
+          <br />
+          <input
+            type="radio"
+            id="q3Mind"
+            name="condition1"
+            value="q1Yes"
+            disabled="true"
+          />
+          <label for="q1Yes">Mind</label> <br />
+          <input
+            type="radio"
+            id="q3Body"
+            name="condition1"
+            value="q1Yes"
+            disabled="true"
+          />
+          <label for="q1No">Body</label>
+        </li>
+        <li>
+          <text
+            >You can only answer this because you have answered questions 1 and
+            2.</text>
+          <br />
+          <input type="text" id="q4" name="born" value="" disabled="true" />
+        </li>
+      </ol>
+    </form>
+
+    <p id="responses" hidden>Your selection is:</p>
+    <ol>
+      <li id="r1" hidden></li>
+      <li id="r2" hidden></li>
+      <li id="r3" hidden></li>
+      <li id="r4" hidden></li>
+    </ol>
+  </body>
+  <script>
+    const r1 = document.getElementById("r1");
+    const r2 = document.getElementById("r2");
+    const r3 = document.getElementById("r3");
+    const r4 = document.getElementById("r4");
+    const q1Yes = document.getElementById("q1Yes");
+    const q1No = document.getElementById("q1No");
+    const q2 = document.getElementById("q2");
+    const q4 = document.getElementById("q4");
+    const q3Mind = document.getElementById("q3Mind");
+    const q3Body = document.getElementById("q3Body");
+
+    //question 1 logic: question three available when user answers yes.//
+    q1Yes.onclick = () => {
+      q3Body.disabled = false;
+      q3Mind.disabled = false;
+      r1.hidden = false;
+      r1.textContent = "Yes";
+      r3.textContent = "";
+    };
+
+    q1No.onclick = () => {
+      q3Body.disabled = true;
+      q3Mind.disabled = true;
+      r1.hidden = false;
+      r1.textContent = "No";
+      r2.hidden = false;
+      r3.hidden = false;
+      r3.textContent = "choice disabled";
+    };
+    //question 2 logic: response box filled at end of page. If user answers 'body' and q2 is not blank, they can answer q4.//
+    q2.onkeyup = () => {
+      r2.hidden = false;
+      r2.innerText = q2.value;
+      if (!q3Body.disabled) {
+        q4.disabled = false;
+      }
+      if (!q2.value) {
+        q4.disabled = true;
+        r2.hidden = true;
+      }
+    };
+
+    //question 3 logic: response box filled.//
+    q3Mind.onclick = () => {
+      r2.hidden = false;
+      r2.textContent = q2.value;
+      r3.hidden = false;
+      r3.textContent = "Mind";
+    };
+    
+    q3Body.onclick = () => {
+      r2.hidden = false;
+      r2.textContent = q2.value;
+      r3.hidden = false;
+      r3.textContent = "Body";
+    };
+
+    //question 4 logic: response box filling//
+    q4.onkeyup = () => {
+      r4.hidden = false;
+      r4.textContent = q4.value;
+      if (!q4.value) {
+        r4.hidden = true;
+      }
+    };
+  </script>
+</html>
